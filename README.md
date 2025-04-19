@@ -1,11 +1,11 @@
-# Multilingual
+# Phoenix Multilingual
 
-Multilingual simplifies handling localized routes
+Phoenix Multilingual simplifies handling localized routes
 in Elixir Phoenix applications, with and without LiveView.
 
 # Rationale
 
-In Multilingual "view" means a page in an application, **which can be
+In Phoenix Multilingual, "view" means a page in an application, **which can be
 rendered in one or more languages**.
 
 When a site is localized, it is important to know which paths
@@ -36,12 +36,12 @@ Fortunately, the [Phoenix.Router](https://hexdocs.pm/phoenix/Phoenix.Router.html
 allows [metadata](https://hexdocs.pm/phoenix/Phoenix.Router.html#match/5-options)
 to be added to route declarations.
 
-With Multilingual, you add metadata to indicate the locale of each localized view.
+With Phoenix Multilingual, you add metadata to indicate the locale of each localized view.
 
 You can do this via a helper:
 
 ```ex
-import Multilingual.Routes, only: [metadata: 1]
+import PhoenixMultilingual.Routes, only: [metadata: 1]
 
 ...
 
@@ -91,7 +91,7 @@ get "/en", PageController, :index_en, metadata(:index, "en")
 
 # Route Organization
 
-Multilingual places no restrictions on how you structure your router declarations.
+Phoenix Multilingual places no restrictions on how you structure your router declarations.
 
 You can group the localized versions under scopes, with path prefixes:
 
@@ -140,33 +140,33 @@ With you routes set up, you can then make use of the information they give
 via the following modules and functions.
 
 This works by first storing the current path and locale
-([the 'LocalizedView'](lib/multilingual/localized_view.ex))
+([the 'LocalizedView'](lib/phoenix_multilingual/localized_view.ex))
 in the `conn` or, the `socket` for LiveViews, and then using that
 information to take further actions.
 
 ## Plugs for the Router
 
-* The [StoreView Plug](lib/multilingual/plugs/store_view.ex) to store
-  [localized view](lib/multilingual/localized_view.ex) information;
-* The [RedirectIncoming Plug](lib/multilingual/plugs/redirect_incoming.ex)
+* The [StoreView Plug](lib/phoenix_multilingual/plugs/store_view.ex) to store
+  [localized view](lib/phoenix_multilingual/localized_view.ex) information;
+* The [RedirectIncoming Plug](lib/phoenix_multilingual/plugs/redirect_incoming.ex)
   for incoming links, which checks the 'accept-langauge' header
   and redirects to the correct view for the user's needs;
-* The [PutGettextLocale Plug](lib/multilingual/plugs/put_gettext_locale.ex)
+* The [PutGettextLocale Plug](lib/phoenix_multilingual/plugs/put_gettext_locale.ex)
   which calls `Gettext.put_locale/1`.
 
 ## LiveView Hooks
 
-* The [StoreView on_mount hook](lib/multilingual/live_view/hooks/store_view.ex)
-  to store [localized view](lib/multilingual/view.ex) information in the LiveView socket;
-* The [PutGettextLocale on_mount hook](lib/multilingual/live_view/hooks/put_gettext_locale.ex)
+* The [StoreView on_mount hook](lib/phoenix_multilingual/live_view/hooks/store_view.ex)
+  to store [localized view](lib/phoenix_multilingual/view.ex) information in the LiveView socket;
+* The [PutGettextLocale on_mount hook](lib/phoenix_multilingual/live_view/hooks/put_gettext_locale.ex)
   which calls `Gettext.put_locale/1`.
 
 ## HTML Generation
 
-* [get_rel_links/1](lib/multilingual/html.ex) builds a set of SEO-friendly
+* [get_rel_links/1](lib/phoenix_multilingual/html.ex) builds a set of SEO-friendly
   rel links for the document head, indicating the canonical URL and links to
   localized views,
-* [localized_path/3](lib/multilingual/routes.ex) takes any path and
+* [localized_path/3](lib/phoenix_multilingual/routes.ex) takes any path and
   a locale and returns the equivalent path for that locale,
-* [build_page_mapping/2](lib/multilingual/routes.ex) returns a mapping
+* [build_page_mapping/2](lib/phoenix_multilingual/routes.ex) returns a mapping
   of locales to paths to aid the creation of language selectors.

@@ -1,7 +1,7 @@
-defmodule Multilingual.ComponentsTest do
+defmodule PhoenixMultilingual.ComponentsTest do
   use ExUnit.Case
 
-  import Multilingual.Components
+  import PhoenixMultilingual.Components
 
   describe "rel_links/1" do
     test "renders a list of rel links" do

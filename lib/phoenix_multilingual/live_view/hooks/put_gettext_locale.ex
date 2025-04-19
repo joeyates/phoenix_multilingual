@@ -1,5 +1,5 @@
 if Code.ensure_loaded?(Phoenix.LiveView) do
-  defmodule Multilingual.Hooks.PutGettextLocale do
+  defmodule PhoenixMultilingual.Hooks.PutGettextLocale do
     @moduledoc """
     Sets the Gettext locale in the LiveView socket
     based on the locale stored in the socket's private data.
@@ -12,8 +12,8 @@ if Code.ensure_loaded?(Phoenix.LiveView) do
         defmodule MyAppWeb.HomeLive do
           use MyAppWeb, :live_view
 
-          alias Multilingual.Hooks.StoreView
-          alias Multilingual.Hooks.PutGettextLocale
+          alias PhoenixMultilingual.Hooks.StoreView
+          alias PhoenixMultilingual.Hooks.PutGettextLocale
 
           on_mount {StoreView, default_locale: "en"}
           on_mount PutGettextLocale
@@ -21,7 +21,7 @@ if Code.ensure_loaded?(Phoenix.LiveView) do
     """
 
     import Phoenix.LiveView
-    alias Multilingual.View
+    alias PhoenixMultilingual.View
 
     def on_mount(:default, _params, _session, socket) do
       socket =

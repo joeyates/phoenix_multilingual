@@ -1,13 +1,13 @@
-defmodule Multilingual.Hooks.PutGettextLocaleTest do
+defmodule PhoenixMultilingual.Hooks.PutGettextLocaleTest do
   use ExUnit.Case
 
-  import Multilingual.Hooks.PutGettextLocale
+  import PhoenixMultilingual.Hooks.PutGettextLocale
   import Phoenix.LiveView
 
   defp optionally_add_multilingual_view(socket, %{multilingual_view: false}), do: socket
 
   defp optionally_add_multilingual_view(socket, _context) do
-    put_private(socket, :multilingual, %Multilingual.View{path: "/my_live", locale: "fr"})
+    put_private(socket, :multilingual, %PhoenixMultilingual.View{path: "/my_live", locale: "fr"})
   end
 
   describe "on_mount/4" do
@@ -56,7 +56,7 @@ defmodule Multilingual.Hooks.PutGettextLocaleTest do
     } do
       {_, socket} = on_mount(:default, nil, nil, socket)
 
-      assert_raise Multilingual.MissingViewDataInSocketError, fn ->
+      assert_raise PhoenixMultilingual.MissingViewDataInSocketError, fn ->
         hook = hd(socket.private.lifecycle.handle_params)
         {_, _socket} = hook.function.([], "http://example.com/about", socket)
       end

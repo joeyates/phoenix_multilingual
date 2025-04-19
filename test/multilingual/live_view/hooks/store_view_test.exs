@@ -1,8 +1,8 @@
-defmodule Multilingual.Hooks.StoreViewTest do
+defmodule PhoenixMultilingual.Hooks.StoreViewTest do
   use ExUnit.Case
 
-  import Multilingual.Hooks.StoreView
-  alias Multilingual.Test.Project.Router
+  import PhoenixMultilingual.Hooks.StoreView
+  alias PhoenixMultilingual.Test.Project.Router
 
   describe "on_mount/4" do
     setup do
@@ -30,7 +30,7 @@ defmodule Multilingual.Hooks.StoreViewTest do
 
       hook = hd(socket.private.lifecycle.handle_params)
       {_, socket} = hook.function.([], "http://example.com/live/about", socket)
-      assert %Multilingual.View{locale: "en"} = socket.private.multilingual
+      assert %PhoenixMultilingual.View{locale: "en"} = socket.private.multilingual
     end
 
     test "the hook stores the path in the socket's private data", %{socket: socket} do
@@ -38,7 +38,7 @@ defmodule Multilingual.Hooks.StoreViewTest do
 
       hook = hd(socket.private.lifecycle.handle_params)
       {_, socket} = hook.function.([], "http://example.com/live/about", socket)
-      assert %Multilingual.View{path: "/live/about"} = socket.private.multilingual
+      assert %PhoenixMultilingual.View{path: "/live/about"} = socket.private.multilingual
     end
 
     test "when the path has parameters, the hook stores the path", %{socket: socket} do
@@ -47,7 +47,7 @@ defmodule Multilingual.Hooks.StoreViewTest do
 
       hook = hd(socket.private.lifecycle.handle_params)
       {_, socket} = hook.function.([], "http://example.com/live/contacts/1", socket)
-      assert %Multilingual.View{path: "/live/contacts/1"} = socket.private.multilingual
+      assert %PhoenixMultilingual.View{path: "/live/contacts/1"} = socket.private.multilingual
     end
 
     test "when the path has parameters, the hook stores the locale", %{socket: socket} do
@@ -56,7 +56,7 @@ defmodule Multilingual.Hooks.StoreViewTest do
 
       hook = hd(socket.private.lifecycle.handle_params)
       {_, socket} = hook.function.([], "http://example.com/live/contacts/1", socket)
-      assert %Multilingual.View{locale: "en"} = socket.private.multilingual
+      assert %PhoenixMultilingual.View{locale: "en"} = socket.private.multilingual
     end
   end
 end

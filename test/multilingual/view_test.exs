@@ -1,4 +1,4 @@
-defmodule Multilingual.ViewTest do
+defmodule PhoenixMultilingual.ViewTest do
   use ExUnit.Case
-  doctest Multilingual.View
+  doctest PhoenixMultilingual.View
 end

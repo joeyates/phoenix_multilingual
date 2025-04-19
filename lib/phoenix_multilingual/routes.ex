@@ -1,4 +1,4 @@
-defmodule Multilingual.Routes do
+defmodule PhoenixMultilingual.Routes do
   defmodule RouteInfo do
     @moduledoc """
     A struct to hold route information supplied by Phoenix.Router.route_info/4.
@@ -37,15 +37,15 @@ defmodule Multilingual.Routes do
         get "/it/chi-siamo", PageController, :index, metadata("it")
       end
 
-      > Multilingual.Routes.build_page_mapping(Router, "/about")
+      > PhoenixMultilingual.Routes.build_page_mapping(Router, "/about")
       {:ok, %{"en" => "/about", "it" => "/it/chi-siamo"}}
 
   The result can be used to create a language switcher in the view.
 
       <% locales = ["en", "it"] %>
-      <% locale = Multilingual.View.fetch_key(@conn, :locale) %>
-      <% path = Multilingual.View.fetch_key(@conn, :route) %>
-      <% {:ok, mapping} = Multilingual.Routes.build_page_mapping(@conn, path) %>
+      <% locale = PhoenixMultilingual.View.fetch_key(@conn, :locale) %>
+      <% path = PhoenixMultilingual.View.fetch_key(@conn, :route) %>
+      <% {:ok, mapping} = PhoenixMultilingual.Routes.build_page_mapping(@conn, path) %>
       <nav>
         <ul>
           <%= for lcl <- locales do %>
@@ -130,7 +130,7 @@ defmodule Multilingual.Routes do
         get "/it/chi-siamo", PageController, :index, metadata("it")
       end
 
-      > Multilingual.Routes.localized_path(MyAppWeb.Router, "/about", "it")
+      > PhoenixMultilingual.Routes.localized_path(MyAppWeb.Router, "/about", "it")
       "/it/chi-siamo"
   """
   def localized_path(router, path, locale) do
@@ -187,7 +187,7 @@ defmodule Multilingual.Routes do
 
   ## Examples
 
-      iex> Multilingual.Routes.metadata("it")
+      iex> PhoenixMultilingual.Routes.metadata("it")
       [metadata: %{multilingual: %{locale: "it"}}]
   """
   def metadata(locale) do
@@ -199,7 +199,7 @@ defmodule Multilingual.Routes do
 
   ## Examples
 
-      iex> Multilingual.Routes.metadata(:about, "it")
+      iex> PhoenixMultilingual.Routes.metadata(:about, "it")
       [metadata: %{multilingual: %{view: :about, locale: "it"}}]
   """
   def metadata(view, locale) do

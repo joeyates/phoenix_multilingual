@@ -1,8 +1,8 @@
 if Code.ensure_loaded?(Phoenix.Component) do
-  defmodule Multilingual.HTML do
-    import Multilingual.Components
-    alias Multilingual.Routes
-    alias Multilingual.View
+  defmodule PhoenixMultilingual.HTML do
+    import PhoenixMultilingual.Components
+    alias PhoenixMultilingual.Routes
+    alias PhoenixMultilingual.View
 
     @doc """
     Builds a list of data for rel links for the document head.

@@ -1,5 +1,5 @@
 if Code.ensure_loaded?(Phoenix.Component) do
-  defmodule Multilingual.Components do
+  defmodule PhoenixMultilingual.Components do
     use Phoenix.Component
 
     @doc """

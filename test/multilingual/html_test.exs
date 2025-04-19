@@ -1,8 +1,8 @@
-defmodule Multilingual.HTMLTest do
+defmodule PhoenixMultilingual.HTMLTest do
   use ExUnit.Case
 
-  import Multilingual.HTML
-  alias Multilingual.Test.Project.Router
+  import PhoenixMultilingual.HTML
+  alias PhoenixMultilingual.Test.Project.Router
 
   describe "get_rel_links/1" do
     defp iodata_to_string(iodata) do
@@ -17,7 +17,7 @@ defmodule Multilingual.HTMLTest do
         |> Map.put(:router, Router)
         |> Plug.Conn.put_private(:phoenix_router, Router)
         |> Plug.Conn.put_private(:phoenix_router_url, "http://example.com")
-        |> Plug.Conn.put_private(:multilingual, %Multilingual.View{
+        |> Plug.Conn.put_private(:multilingual, %PhoenixMultilingual.View{
           path: context.path,
           locale: "en"
         })

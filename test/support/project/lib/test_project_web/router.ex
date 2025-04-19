@@ -2,9 +2,9 @@ defmodule TestProjectWeb.Router do
   use Phoenix.Router
   import Phoenix.LiveView.Router
 
-  import Multilingual.Routes, only: [metadata: 1, metadata: 2]
+  import PhoenixMultilingual.Routes, only: [metadata: 1, metadata: 2]
 
-  scope "/", Multilingual.Test.Project do
+  scope "/", TestProjectWeb do
     # A Phoenix view
     get("/about", PageController, :about, metadata("en"))
     get("/it/chi-siamo", PageController, :about, metadata("it"))

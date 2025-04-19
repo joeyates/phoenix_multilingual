@@ -1,7 +1,7 @@
-defmodule Multilingual.Plugs.PutGettextLocaleTest do
+defmodule PhoenixMultilingual.Plugs.PutGettextLocaleTest do
   use ExUnit.Case, async: true
 
-  import Multilingual.Plugs.PutGettextLocale
+  import PhoenixMultilingual.Plugs.PutGettextLocale
 
   describe "call/2" do
     setup do
@@ -14,7 +14,7 @@ defmodule Multilingual.Plugs.PutGettextLocaleTest do
     end
 
     test "sets the gettext locale" do
-      view = %Multilingual.View{locale: "fr", path: "/"}
+      view = %PhoenixMultilingual.View{locale: "fr", path: "/"}
       conn = %Plug.Conn{private: %{multilingual: view}}
 
       call(conn, %{})
@@ -23,7 +23,7 @@ defmodule Multilingual.Plugs.PutGettextLocaleTest do
     end
 
     test "when the locale is not set, it throws an error" do
-      assert_raise Multilingual.MissingViewDataInConnError, fn ->
+      assert_raise PhoenixMultilingual.MissingViewDataInConnError, fn ->
         call(%Plug.Conn{}, nil)
       end
     end

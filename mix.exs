@@ -1,7 +1,7 @@
-defmodule Multilingual.MixProject do
+defmodule PhoenixMultilingual.MixProject do
   use Mix.Project
 
-  @app :multilingual
+  @app :phoenix_multilingual
 
   def project do
     [
@@ -38,7 +38,7 @@ defmodule Multilingual.MixProject do
     %{
       licenses: ["MIT"],
       links: %{
-        "GitHub" => "https://github.com/joeyates/multilingual"
+        "GitHub" => "https://github.com/joeyates/phoenix_multilingual"
       },
       maintainers: ["Joe Yates"]
     }

@@ -1,10 +1,10 @@
-defmodule Multilingual.Plugs.RedirectIncomingTest do
+defmodule PhoenixMultilingual.Plugs.RedirectIncomingTest do
   use ExUnit.Case, async: true
 
-  import Multilingual.Plugs.RedirectIncoming
-  alias Multilingual.Plugs.RedirectIncoming
-  alias Multilingual.View
-  alias Multilingual.Test.Project.Router
+  import PhoenixMultilingual.Plugs.RedirectIncoming
+  alias PhoenixMultilingual.Plugs.RedirectIncoming
+  alias PhoenixMultilingual.View
+  alias PhoenixMultilingual.Test.Project.Router
 
   defp build_conn(context) do
     Phoenix.ConnTest.build_conn()

@@ -1,6 +1,6 @@
 if Code.ensure_loaded?(Gettext) do
-  defmodule Multilingual.Plugs.PutGettextLocale do
-    alias Multilingual.View
+  defmodule PhoenixMultilingual.Plugs.PutGettextLocale do
+    alias PhoenixMultilingual.View
 
     def init(_opts), do: nil
 

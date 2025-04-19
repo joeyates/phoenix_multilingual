@@ -1,25 +1,25 @@
 if Code.ensure_loaded?(Phoenix.LiveView) do
-  defmodule Multilingual.Hooks.StoreView do
+  defmodule PhoenixMultilingual.Hooks.StoreView do
     @moduledoc """
     Store the view information in the LiveView socket's private data.
 
     This hook **must** be registered for each LiveView in order
-    to enable all other Multilingual features in Phoenix live views.
+    to enable all other Phoenix Multilingual features in Phoenix live views.
 
     ## Example
 
         defmodule MyAppWeb.HomeLive do
           use MyAppWeb, :live_view
 
-          alias Multilingual.Hooks.StoreView
+          alias PhoenixMultilingual.Hooks.StoreView
 
           on_mount {StoreView, default_locale: "en"}
         end
     """
 
     import Phoenix.LiveView
-    alias Multilingual.Routes
-    alias Multilingual.View
+    alias PhoenixMultilingual.Routes
+    alias PhoenixMultilingual.View
 
     def on_mount([default_locale: default_locale], _params, _session, socket) do
       socket =

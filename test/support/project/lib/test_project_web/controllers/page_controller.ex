@@ -1,3 +1,3 @@
-defmodule Multilingual.Test.Project.PageController do
+defmodule TestProjectWeb.PageController do
   use Phoenix.Controller
 end

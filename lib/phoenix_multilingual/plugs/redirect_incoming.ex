@@ -1,4 +1,4 @@
-defmodule Multilingual.Plugs.RedirectIncoming do
+defmodule PhoenixMultilingual.Plugs.RedirectIncoming do
   @moduledoc """
   Redirects incoming requests to the user's preferred language.
 
@@ -33,8 +33,8 @@ defmodule Multilingual.Plugs.RedirectIncoming do
   @enforce_keys @attrs
   defstruct @attrs
 
-  alias Multilingual.Routes
-  alias Multilingual.View
+  alias PhoenixMultilingual.Routes
+  alias PhoenixMultilingual.View
 
   @supported_accept_locale_sources [
     Cldr

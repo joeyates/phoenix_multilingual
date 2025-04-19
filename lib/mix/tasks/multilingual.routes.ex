@@ -1,7 +1,7 @@
 defmodule Mix.Tasks.Multilingual.Routes do
   use Mix.Task
 
-  alias Multilingual.Routes
+  alias PhoenixMultilingual.Routes
 
   @shortdoc "Shows a table of routes, grouped by view, with locales as columns"
   def run(_args) do
