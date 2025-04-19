@@ -5,16 +5,24 @@ in Elixir Phoenix applications, with and without LiveView.
 
 # Rationale
 
+In Multilingual "view" means a page in an application, **which can be
+rendered in one or more languages**.
+
 When a site is localized, it is important to know which paths
-should be used for the various localizations of a specific view.
+are the various localizations of a specific view.
 
-Maybe the "about page" is `/about` in English and `/it/chi-siamo` in
-Italian.
+For example, a site may have a page about the company, the "about page".
+This page may be available in multiple languages, such as English and Italian.
+The English path would be `/about` and `/it/chi-siamo` the Italian version.
 
-One common need is a "language selector", where you can jump to the same view
-in another language.
+Localized site commonly need these things:
 
-Somewhere, for *each* localized view, there needs to be a mapping like this:
+* access to the current locale,
+* localized links — for example, a link to the "about" page in the current locale,
+* a language selector — where you can jump to the same view in another language,
+* rel links in the header with alternative paths for the same view in other languages.
+
+TO achieve all this, somewhere, for *each* localized view, there needs to be a mapping like this:
 
 * "en" -> "/about"
 * "it" -> "/it/chi-siamo"
@@ -40,7 +48,7 @@ import Multilingual.Routes, only: [metadata: 1]
 get "/", PageController, :index, metadata("zh")
 ```
 
-`metadata/1` returns the [`options`](https://hexdocs.pm/phoenix/Phoenix.Router.html#match/5-options)
+`metadata/1` sets the [`options`](https://hexdocs.pm/phoenix/Phoenix.Router.html#match/5-options)
 for the route, specifically, setting the locale as the metadata for this library.
 
 It's the same if you do this:
@@ -59,16 +67,27 @@ get "/zh", PageController, :index, metadata("zh")
 ```
 
 As they have the same `plug` (`PageController`) and `plug_opts` (`:index`),
-Multilingual can group them to create the mapping that we need between
+Multilingual groups them to create the mapping that we need between
 localized versions of the same view.
 
-From the above, we can deduce this:
+From the above, we can deduce that "/" and "/zh" are the same view,
+but in different languages.
 
-* "en" -> "/"
-* "zh" -> "/zh"
+So, by default `plug_opts` is used to identify the view. This has the
+limitation that only one action is used for each view.
 
-And that's all is needed to carry out all the tasks we need when
-handling the views of a localized site.
+If you want to have multiple actions for the same view, you can
+use the `metadata/2` function in the metadata to specify both the
+view and the locale:
+
+```ex
+import Multilingual.Routes, only: [metadata: 2]
+
+...
+
+get "/", PageController, :index_zh, metadata(:index, "zh")
+get "/en", PageController, :index_en, metadata(:index, "en")
+```
 
 # Route Organization
 
@@ -111,7 +130,7 @@ there is a Mix task:
 
 ```sh
 $ mix multilingual.routes
-method  module                   action  en      it
+method  module                   view    en      it
 get     MyAppWeb.PageController  :index  /about  /it/chi-siamo
 ```
 
@@ -121,14 +140,14 @@ With you routes set up, you can then make use of the information they give
 via the following modules and functions.
 
 This works by first storing the current path and locale
-([the 'View'](lib/multilingual/view.ex))
-in the `conn` or ,for LiveView, the `socket` and then using that
+([the 'LocalizedView'](lib/multilingual/localized_view.ex))
+in the `conn` or, the `socket` for LiveViews, and then using that
 information to take further actions.
 
 ## Plugs for the Router
 
 * The [StoreView Plug](lib/multilingual/plugs/store_view.ex) to store
-  [view](lib/multilingual/view.ex) information;
+  [localized view](lib/multilingual/localized_view.ex) information;
 * The [RedirectIncoming Plug](lib/multilingual/plugs/redirect_incoming.ex)
   for incoming links, which checks the 'accept-langauge' header
   and redirects to the correct view for the user's needs;
@@ -138,7 +157,7 @@ information to take further actions.
 ## LiveView Hooks
 
 * The [StoreView on_mount hook](lib/multilingual/live_view/hooks/store_view.ex)
-  to store [view](lib/multilingual/view.ex) information in the LiveView socket;
+  to store [localized view](lib/multilingual/view.ex) information in the LiveView socket;
 * The [PutGettextLocale on_mount hook](lib/multilingual/live_view/hooks/put_gettext_locale.ex)
   which calls `Gettext.put_locale/1`.
 
