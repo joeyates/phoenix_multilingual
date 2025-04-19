@@ -11,7 +11,7 @@ defmodule Multilingual.MixProject do
       description:
         "Simplify handling localized routes in Elixir Phoenix applications, with and without LiveView",
       deps: deps(),
-      elixirc_paths: elixirc_paths(Mix.env()),
+      elixirc_paths: ["lib"],
       package: package(),
       start_permanent: Mix.env() == :prod
     ]
@@ -33,9 +33,6 @@ defmodule Multilingual.MixProject do
       {:phoenix_live_view, ">= 0.20.1", optional: true}
     ]
   end
-
-  defp elixirc_paths(:test), do: ["lib", "test/support/project"]
-  defp elixirc_paths(_env), do: ["lib"]
 
   defp package do
     %{

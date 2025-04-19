@@ -1,4 +1,4 @@
-defmodule Multilingual.Test.Project.Router do
+defmodule TestProjectWeb.Router do
   use Phoenix.Router
   import Phoenix.LiveView.Router
 
