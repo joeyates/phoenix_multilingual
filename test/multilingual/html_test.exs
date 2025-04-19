@@ -2,7 +2,7 @@ defmodule PhoenixMultilingual.HTMLTest do
   use ExUnit.Case
 
   import PhoenixMultilingual.HTML
-  alias PhoenixMultilingual.Test.Project.Router
+  alias TestProjectWeb.Router
 
   describe "get_rel_links/1" do
     defp iodata_to_string(iodata) do

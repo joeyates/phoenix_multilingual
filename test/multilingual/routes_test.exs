@@ -3,7 +3,7 @@ defmodule PhoenixMultilingual.RoutesTest do
   doctest PhoenixMultilingual.Routes
 
   import PhoenixMultilingual.Routes
-  alias PhoenixMultilingual.Test.Project.Router
+  alias TestProjectWeb.Router
 
   setup do
     conn = %Plug.Conn{private: %{phoenix_router: Router}}

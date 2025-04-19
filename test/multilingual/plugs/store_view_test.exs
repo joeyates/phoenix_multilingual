@@ -2,7 +2,7 @@ defmodule PhoenixMultilingual.Plugs.StoreViewTest do
   use ExUnit.Case, async: true
 
   import PhoenixMultilingual.Plugs.StoreView
-  alias PhoenixMultilingual.Test.Project.Router
+  alias TestProjectWeb.Router
 
   describe "init/1" do
     test "returns the default locale" do

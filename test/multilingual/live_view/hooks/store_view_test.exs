@@ -2,7 +2,7 @@ defmodule PhoenixMultilingual.Hooks.StoreViewTest do
   use ExUnit.Case
 
   import PhoenixMultilingual.Hooks.StoreView
-  alias PhoenixMultilingual.Test.Project.Router
+  alias TestProjectWeb.Router
 
   describe "on_mount/4" do
     setup do

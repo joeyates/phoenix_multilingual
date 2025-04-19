@@ -4,7 +4,7 @@ defmodule PhoenixMultilingual.Plugs.RedirectIncomingTest do
   import PhoenixMultilingual.Plugs.RedirectIncoming
   alias PhoenixMultilingual.Plugs.RedirectIncoming
   alias PhoenixMultilingual.View
-  alias PhoenixMultilingual.Test.Project.Router
+  alias TestProjectWeb.Router
 
   defp build_conn(context) do
     Phoenix.ConnTest.build_conn()
