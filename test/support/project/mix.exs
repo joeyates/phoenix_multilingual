@@ -24,6 +24,7 @@ defmodule TestProject.MixProject do
   defp deps do
     [
       {:multilingual, ">= 0.0.0", path: "../../.."},
+      {:gettext, ">= 0.0.0"},
       {:phoenix, ">= 0.0.0"},
       {:phoenix_live_view, ">= 0.0.0"}
     ]

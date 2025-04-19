@@ -36,7 +36,7 @@ defmodule Mix.Tasks.Multilingual.Routes do
       end)
       |> Map.keys()
 
-    headings = ["method", "module", "action"] ++ locales
+    headings = ["method", "module", "view"] ++ locales
 
     rows =
       localized_groups
