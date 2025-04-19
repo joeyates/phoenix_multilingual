@@ -3,7 +3,7 @@ defmodule Mix.Tasks.Multilingual.Routes do
 
   alias Multilingual.Routes
 
-  @shortdoc "List all routes in the application, grouped by view as a JSON string"
+  @shortdoc "Shows a table of routes, grouped by view, with locales as columns"
   def run(_args) do
     Mix.Task.run("compile", [])
     base = Mix.Phoenix.base()
