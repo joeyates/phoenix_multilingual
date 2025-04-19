@@ -34,7 +34,7 @@ defmodule Multilingual.MixProject do
     ]
   end
 
-  defp elixirc_paths(:test), do: ["lib", "test/project"]
+  defp elixirc_paths(:test), do: ["lib", "test/support/project"]
   defp elixirc_paths(_env), do: ["lib"]
 
   defp package do
