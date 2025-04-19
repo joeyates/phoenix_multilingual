@@ -15,10 +15,10 @@ defmodule Mix.Tasks.Multilingual.Routes do
       |> Enum.reduce({%{}, []}, fn route, {localized, other} ->
         case Routes.locale(route) do
           {:ok, locale} ->
-            view = {route.plug, route.helper, route.plug_opts}
+            plug_view = {route.plug, Routes.view(route)}
 
             localized =
-              Map.update(localized, view, %{locale => route}, &Map.put(&1, locale, route))
+              Map.update(localized, plug_view, %{locale => route}, &Map.put(&1, locale, route))
 
             {localized, other}
 
@@ -40,14 +40,14 @@ defmodule Mix.Tasks.Multilingual.Routes do
 
     rows =
       localized_groups
-      |> Enum.map(fn {{plug, _helper, plug_opts}, routes} ->
+      |> Enum.map(fn {{plug, view}, routes} ->
         common_columns =
           if plug == Phoenix.LiveView.Plug do
             route = hd(Map.values(routes))
             {module, action, _, _} = route.metadata.phoenix_live_view
             ["live", Macro.to_string(module), ":#{action}"]
           else
-            ["get", Macro.to_string(plug), ":#{plug_opts}"]
+            ["get", Macro.to_string(plug), ":#{view}"]
           end
 
         locale_columns =

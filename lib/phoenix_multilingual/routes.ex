@@ -171,8 +171,8 @@ defmodule PhoenixMultilingual.Routes do
   defp same_view(route_1, route_2) do
     with true <- route_1.verb == route_2.verb,
          true <- route_1.plug == route_2.plug,
-         view_1 = get_in(route_1.metadata, [:multilingual, :view]) || route_1.plug_opts,
-         view_2 = get_in(route_2.metadata, [:multilingual, :view]) || route_2.plug_opts,
+         view_1 = view(route_1),
+         view_2 = view(route_2),
          true <- view_1 == view_2,
          true <- route_1.helper == route_2.helper do
       true
@@ -260,5 +260,13 @@ defmodule PhoenixMultilingual.Routes do
       nil -> {:error, :no_locale}
       locale -> {:ok, locale}
     end
+  end
+
+  def view(%Route{} = route) do
+    get_in(route.metadata, [:multilingual, :view]) || route.plug_opts
+  end
+
+  def view(route) do
+    get_in(route, [:metadata, :multilingual, :view]) || route.plug_opts
   end
 end
