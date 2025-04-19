@@ -12,7 +12,7 @@ defmodule Multilingual.RoutesTest do
   end
 
   describe "build_page_mapping/2" do
-    test "returns a mapping of locales to paths for the current page" do
+    test "returns a mapping of locales to paths for a path" do
       assert build_page_mapping(Router, "/about") ==
                {:ok, %{"en" => "/about", "it" => "/it/chi-siamo"}}
     end
@@ -20,6 +20,11 @@ defmodule Multilingual.RoutesTest do
     test "when the route has parameters, builds paths correctly" do
       assert build_page_mapping(Router, "/contacts/fred") ==
                {:ok, %{"en" => "/contacts/fred", "it" => "/it/contatti/fred"}}
+    end
+
+    test "returns a mapping of locales to paths for a path, when plug_opts are different" do
+      assert build_page_mapping(Router, "/projects") ==
+               {:ok, %{"en" => "/projects", "it" => "/it/progetti"}}
     end
 
     test "returns an error tuple when the path doesn't exist" do

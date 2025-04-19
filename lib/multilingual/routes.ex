@@ -66,7 +66,7 @@ defmodule Multilingual.Routes do
   end
 
   def build_page_mapping(router, path) do
-    with {:ok, info} <- path_info(router, path),
+    with {:ok, info} <- route_info(router, path),
          {:ok, route} <- find_route(router, info),
          :ok <- is_localized?(route) do
       build_route_mapping(router, route, info.path_params)
@@ -134,7 +134,7 @@ defmodule Multilingual.Routes do
       "/it/chi-siamo"
   """
   def localized_path(router, path, locale) do
-    with {:ok, info} <- path_info(router, path),
+    with {:ok, info} <- route_info(router, path),
          {:ok, route} <- find_route(router, info),
          {:ok, localized} <- find_localized_route(router, route, locale) do
       interpolate_params(localized.path, info.path_params)
@@ -171,7 +171,9 @@ defmodule Multilingual.Routes do
   defp same_view(route_1, route_2) do
     with true <- route_1.verb == route_2.verb,
          true <- route_1.plug == route_2.plug,
-         true <- route_1.plug_opts == route_2.plug_opts,
+         view_1 = get_in(route_1.metadata, [:multilingual, :view]) || route_1.plug_opts,
+         view_2 = get_in(route_2.metadata, [:multilingual, :view]) || route_2.plug_opts,
+         true <- view_1 == view_2,
          true <- route_1.helper == route_2.helper do
       true
     else
@@ -181,7 +183,7 @@ defmodule Multilingual.Routes do
   end
 
   @doc """
-  Creates metadata for multilingual routes.
+  Creates locale metadata for multilingual routes.
 
   ## Examples
 
@@ -193,11 +195,23 @@ defmodule Multilingual.Routes do
   end
 
   @doc """
+  Creates locale and view metadata for multilingual routes.
+
+  ## Examples
+
+      iex> Multilingual.Routes.metadata(:about, "it")
+      [metadata: %{multilingual: %{view: :about, locale: "it"}}]
+  """
+  def metadata(view, locale) do
+    [metadata: %{multilingual: %{view: view, locale: locale}}]
+  end
+
+  @doc """
   Returns the locale from the metadata of the route which provides
   the requested path.
   """
   def path_locale(router, path) do
-    with {:ok, info} <- path_info(router, path),
+    with {:ok, info} <- route_info(router, path),
          {:ok, route} <- find_route(router, info),
          {:ok, locale} <- locale(route) do
       locale
@@ -207,7 +221,7 @@ defmodule Multilingual.Routes do
     end
   end
 
-  defp path_info(router, path) do
+  defp route_info(router, path) do
     case Phoenix.Router.route_info(router, "GET", path, nil) do
       :error ->
         {:error, :not_found}
