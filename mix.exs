@@ -25,7 +25,7 @@ defmodule Multilingual.MixProject do
 
   defp deps do
     [
-      {:ex_cldr, ">= 2.39.2", optional: true},
+      {:ex_cldr, ">= 2.39.2"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:gettext, "~> 0.18", optional: true},
       {:jason, ">= 1.4.1"},
