@@ -103,12 +103,9 @@ defmodule PhoenixMultilingual.Plugs.RedirectIncoming do
   end
 
   defp locale_path(conn, locale) do
-    case Routes.localized_path(conn.router, conn.request_path, locale) do
-      nil ->
-        {:error, :no_localized_path}
-
-      path ->
-        {:ok, path}
+    with router when not is_nil(router) <- get_in(conn, [Access.key(:router)]),
+         path when not is_nil(path) <- Routes.localized_path(router, conn.request_path, locale) do
+      {:ok, path}
     end
   end
 
