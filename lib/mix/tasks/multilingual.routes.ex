@@ -15,7 +15,7 @@ defmodule Mix.Tasks.Multilingual.Routes do
       |> Enum.reduce({%{}, []}, fn route, {localized, other} ->
         case Routes.locale(route) do
           {:ok, locale} ->
-            plug_view = {route.plug, Routes.view(route)}
+            plug_view = {route.plug, Routes.view_name(route)}
 
             localized =
               Map.update(localized, plug_view, %{locale => route}, &Map.put(&1, locale, route))

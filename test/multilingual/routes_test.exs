@@ -13,31 +13,31 @@ defmodule PhoenixMultilingual.RoutesTest do
 
   describe "build_page_mapping/2" do
     test "returns a mapping of locales to paths for a path" do
-      assert build_page_mapping(Router, "/about") ==
-               {:ok, %{"en" => "/about", "it" => "/it/chi-siamo"}}
+      {:ok, mapping} = build_page_mapping(Router, "/about")
+      assert mapping == %{"en" => "/about", "it" => "/it/chi-siamo"}
     end
 
     test "when the route has parameters, builds paths correctly" do
-      assert build_page_mapping(Router, "/contacts/fred") ==
-               {:ok, %{"en" => "/contacts/fred", "it" => "/it/contatti/fred"}}
+      {:ok, mapping} = build_page_mapping(Router, "/contacts/fred")
+      assert mapping == %{"en" => "/contacts/fred", "it" => "/it/contatti/fred"}
     end
 
     test "returns a mapping of locales to paths for a path, when plug_opts are different" do
-      assert build_page_mapping(Router, "/projects") ==
-               {:ok, %{"en" => "/projects", "it" => "/it/progetti"}}
+      {:ok, mapping} = build_page_mapping(Router, "/projects")
+      assert mapping == %{"en" => "/projects", "it" => "/it/progetti"}
     end
 
     test "returns an error tuple when the path doesn't exist" do
-      assert build_page_mapping(Router, "/doesnt_exist") == {:error, :not_found}
+      assert {:error, :not_found} == build_page_mapping(Router, "/doesnt_exist")
     end
 
     test "returns an error tuple when the path is not localized" do
-      assert build_page_mapping(Router, "/monolingual") == {:error, :not_localized}
+      assert {:error, :not_localized} == build_page_mapping(Router, "/monolingual")
     end
 
     test "accepts a Plug.Conn", %{conn: conn} do
-      assert build_page_mapping(conn, "/about") ==
-               {:ok, %{"en" => "/about", "it" => "/it/chi-siamo"}}
+      {:ok, mapping} = build_page_mapping(conn, "/about")
+      assert mapping == %{"en" => "/about", "it" => "/it/chi-siamo"}
     end
   end
 

@@ -22,7 +22,7 @@ Localized site commonly need these things:
 * a language selector — where you can jump to the same view in another language,
 * rel links in the header with alternative paths for the same view in other languages.
 
-TO achieve all this, somewhere, for *each* localized view, there needs to be a mapping like this:
+To achieve all this, somewhere, for *each* localized view, there needs to be a mapping like this:
 
 * "en" -> "/about"
 * "it" -> "/it/chi-siamo"
@@ -77,8 +77,8 @@ So, by default `plug_opts` is used to identify the view. This has the
 limitation that only one action is used for each view.
 
 If you want to have multiple actions for the same view, you can
-use the `metadata/2` function in the metadata to specify both the
-view and the locale:
+use the `metadata/2` function in the metadata to override the `plug_opts`
+by specifying a `view` alongside the locale:
 
 ```ex
 import Multilingual.Routes, only: [metadata: 2]
@@ -88,6 +88,9 @@ import Multilingual.Routes, only: [metadata: 2]
 get "/", PageController, :index_zh, metadata(:index, "zh")
 get "/en", PageController, :index_en, metadata(:index, "en")
 ```
+
+So, setting this `view` in a route's metadata allows routes with different values of
+`plug_opts` to be grouped together.
 
 # Route Organization
 

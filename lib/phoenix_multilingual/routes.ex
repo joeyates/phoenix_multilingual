@@ -89,8 +89,7 @@ defmodule PhoenixMultilingual.Routes do
     |> Enum.reduce(
       %{},
       fn other, mapping ->
-        with :get <- other.verb,
-             true <- same_view(route, other),
+        with true <- same_view?(route, other),
              {:ok, locale} <- locale(other) do
           path = interpolate_params(other.path, params)
           Map.put(mapping, locale, path)
@@ -150,7 +149,7 @@ defmodule PhoenixMultilingual.Routes do
       |> Enum.find(fn other ->
         case locale(other) do
           {:ok, ^locale} ->
-            same_view(route, other)
+            same_view?(route, other)
 
           _any ->
             false
@@ -168,18 +167,61 @@ defmodule PhoenixMultilingual.Routes do
     end
   end
 
-  defp same_view(route_1, route_2) do
-    with true <- route_1.verb == route_2.verb,
-         true <- route_1.plug == route_2.plug,
-         view_1 = view(route_1),
-         view_2 = view(route_2),
-         true <- view_1 == view_2,
-         true <- route_1.helper == route_2.helper do
+  defp same_view?(%{verb: verb_1}, _route_2) when verb_1 != :get, do: false
+  defp same_view?(_route_1, %{verb: verb_2}) when verb_2 != :get, do: false
+
+  defp same_view?(
+         %{plug: Phoenix.LiveView.Plug} = route_1,
+         %{plug: Phoenix.LiveView.Plug} = route_2
+       ) do
+    with :ok <- same_live_view_module?(route_1, route_2),
+         true <- route_1.helper == route_2.helper,
+         :ok <- same_view_name?(route_1, route_2) do
       true
     else
       _any ->
         false
     end
+  end
+
+  defp same_view?(%{plug: Phoenix.LiveView.Plug}, _route_2), do: false
+  defp same_view?(_route_1, %{plug: Phoenix.LiveView.Plug}), do: false
+
+  defp same_view?(route_1, route_2) do
+    with true <- route_1.plug == route_2.plug,
+         true <- route_1.helper == route_2.helper,
+         :ok <- same_view_name?(route_1, route_2) do
+      true
+    else
+      _any ->
+        false
+    end
+  end
+
+  defp same_live_view_module?(route_1, route_2) do
+    with {:ok, module_1} <- live_view_module(route_1),
+         {:ok, module_2} <- live_view_module(route_2),
+         true <- module_1 == module_2 do
+      :ok
+    else
+      _any ->
+        {:error, :different_live_views}
+    end
+  end
+
+  defp same_view_name?(route_1, route_2) do
+    view_name_1 = view_name(route_1)
+    view_name_2 = view_name(route_2)
+
+    if view_name_1 == view_name_2 do
+      :ok
+    else
+      {:error, :different_views}
+    end
+  end
+
+  def view_name(route) do
+    view_override(route) || route.plug_opts
   end
 
   @doc """
@@ -204,6 +246,17 @@ defmodule PhoenixMultilingual.Routes do
   """
   def metadata(view, locale) do
     [metadata: %{multilingual: %{view: view, locale: locale}}]
+  end
+
+  defp live_view_module(%{
+         plug: Phoenix.LiveView.Plug,
+         metadata: %{phoenix_live_view: {module, _action, _router_action, _opts}}
+       }) do
+    {:ok, module}
+  end
+
+  defp live_view_module(_other) do
+    {:error, :not_live_view}
   end
 
   @doc """
@@ -262,11 +315,11 @@ defmodule PhoenixMultilingual.Routes do
     end
   end
 
-  def view(%Route{} = route) do
+  defp view_override(%Route{} = route) do
     get_in(route.metadata, [:multilingual, :view]) || route.plug_opts
   end
 
-  def view(route) do
+  defp view_override(route) do
     get_in(route, [:metadata, :multilingual, :view]) || route.plug_opts
   end
 end
