@@ -1,29 +1,6 @@
 defmodule PhoenixMultilingual.Routes do
-  defmodule RouteInfo do
-    @moduledoc """
-    A struct to hold route information supplied by Phoenix.Router.route_info/4.
-
-    This struct is specific to a path and has parameter infomation.
-    """
-    @attrs [:plug, :route, :plug_opts, :path_params]
-    @enforce_keys @attrs
-    defstruct @attrs
-
-    def attrs(), do: @attrs
-  end
-
-  defmodule Route do
-    @moduledoc """
-    A struct to hold route information returned by Phoenix.Router.routes/1.
-
-    This struct only carries data from the Router.
-    """
-    @attrs [:verb, :path, :plug, :plug_opts, :helper, :metadata]
-    @enforce_keys @attrs
-    defstruct @attrs
-
-    def attrs(), do: @attrs
-  end
+  alias PhoenixMultilingual.Metadata
+  alias PhoenixMultilingual.Routes.{Route, RouteInfo}
 
   @doc """
   Builds a mapping of locales to paths for the current page.
@@ -235,10 +212,10 @@ defmodule PhoenixMultilingual.Routes do
   ## Examples
 
       iex> PhoenixMultilingual.Routes.metadata("it")
-      [metadata: %{multilingual: %{locale: "it"}}]
+      [metadata: %{multilingual: %PhoenixMultilingual.Metadata{locale: "it"}}]
   """
   def metadata(locale) do
-    [metadata: %{multilingual: %{locale: locale}}]
+    [metadata: %{multilingual: Metadata.new(locale)}]
   end
 
   @doc """
@@ -247,10 +224,10 @@ defmodule PhoenixMultilingual.Routes do
   ## Examples
 
       iex> PhoenixMultilingual.Routes.metadata(:about, "it")
-      [metadata: %{multilingual: %{view: :about, locale: "it"}}]
+      [metadata: %{multilingual: %PhoenixMultilingual.Metadata{view_override: :about, locale: "it"}}]
   """
-  def metadata(view, locale) do
-    [metadata: %{multilingual: %{view: view, locale: locale}}]
+  def metadata(view_override, locale) do
+    [metadata: %{multilingual: Metadata.new(view_override, locale)}]
   end
 
   defp live_view_module(%{
@@ -307,24 +284,24 @@ defmodule PhoenixMultilingual.Routes do
   end
 
   def locale(%Route{} = route) do
-    case get_in(route.metadata, [:multilingual, :locale]) do
+    case get_in(route.metadata, [:multilingual, Access.key(:locale)]) do
       nil -> {:error, :no_locale}
       locale -> {:ok, locale}
     end
   end
 
   def locale(route) do
-    case get_in(route, [:metadata, :multilingual, :locale]) do
+    case get_in(route, [:metadata, :multilingual, Access.key(:locale)]) do
       nil -> {:error, :no_locale}
       locale -> {:ok, locale}
     end
   end
 
   defp view_override(%Route{} = route) do
-    get_in(route.metadata, [:multilingual, :view]) || route.plug_opts
+    get_in(route.metadata, [:multilingual, Access.key(:view_override)]) || route.plug_opts
   end
 
   defp view_override(route) do
-    get_in(route, [:metadata, :multilingual, :view]) || route.plug_opts
+    get_in(route, [:metadata, :multilingual, Access.key(:view_override)]) || route.plug_opts
   end
 end
