@@ -28,6 +28,7 @@ defmodule PhoenixMultilingual.MixProject do
       {:ex_cldr, ">= 2.39.2"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:gettext, "~> 0.18", optional: true},
+      {:green, "~> 0.1.9", only: :dev, runtime: false},
       {:jason, ">= 1.4.1"},
       {:phoenix, ">= 1.7.10"},
       {:phoenix_live_view, ">= 0.20.1", optional: true}
