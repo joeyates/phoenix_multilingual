@@ -6,7 +6,7 @@ defmodule PhoenixMultilingual.MixProject do
   def project() do
     [
       app: @app,
-      version: "0.1.14",
+      version: "0.2.0",
       elixir: "~> 1.17",
       description:
         "Simplify handling localized routes in Elixir Phoenix applications, with and without LiveView",
