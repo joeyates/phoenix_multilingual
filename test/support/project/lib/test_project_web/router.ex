@@ -13,7 +13,7 @@ defmodule TestProjectWeb.Router do
     get("/contacts/:name", PageController, :contact, metadata("en"))
     get("/it/contatti/:name", PageController, :contact, metadata("it"))
 
-    # A Phoenix view with different `:plug_opts` values
+    # A Phoenix view with different `:plug_opts` values, but the same "view"
     get("/projects", PageController, :projects_en, metadata(:projects, "en"))
     get("/it/progetti", PageController, :projects_it, metadata(:projects, "it"))
 
