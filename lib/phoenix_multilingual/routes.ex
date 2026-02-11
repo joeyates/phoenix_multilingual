@@ -9,7 +9,7 @@ defmodule PhoenixMultilingual.Routes do
     @enforce_keys @attrs
     defstruct @attrs
 
-    def attrs, do: @attrs
+    def attrs(), do: @attrs
   end
 
   defmodule Route do
@@ -22,7 +22,7 @@ defmodule PhoenixMultilingual.Routes do
     @enforce_keys @attrs
     defstruct @attrs
 
-    def attrs, do: @attrs
+    def attrs(), do: @attrs
   end
 
   @doc """
@@ -61,7 +61,8 @@ defmodule PhoenixMultilingual.Routes do
       </nav>
   """
   def build_page_mapping(%Plug.Conn{} = conn, path) do
-    Phoenix.Controller.router_module(conn)
+    conn
+    |> Phoenix.Controller.router_module()
     |> build_page_mapping(path)
   end
 
@@ -69,7 +70,8 @@ defmodule PhoenixMultilingual.Routes do
     with {:ok, info} <- route_info(router, path),
          {:ok, route} <- find_route(router, info),
          :ok <- is_localized?(route) do
-      build_route_mapping(router, route, info.path_params)
+      router
+      |> build_route_mapping(route, info.path_params)
       |> then(&{:ok, &1})
     else
       error ->
@@ -85,7 +87,8 @@ defmodule PhoenixMultilingual.Routes do
   end
 
   defp build_route_mapping(router, route, params) do
-    Phoenix.Router.routes(router)
+    router
+    |> Phoenix.Router.routes()
     |> Enum.reduce(
       %{},
       fn other, mapping ->
@@ -105,8 +108,9 @@ defmodule PhoenixMultilingual.Routes do
     path
     |> String.split("/")
     |> Enum.map(fn
-      <<":", part::binary>> = param ->
-        Map.get(params, part, param)
+      ":" <> part = param ->
+        params
+        |> Map.get(part, param)
         |> to_string()
 
       part ->
@@ -145,7 +149,8 @@ defmodule PhoenixMultilingual.Routes do
 
   defp find_localized_route(router, route, locale) do
     found =
-      Phoenix.Router.routes(router)
+      router
+      |> Phoenix.Router.routes()
       |> Enum.find(fn other ->
         case locale(other) do
           {:ok, ^locale} ->

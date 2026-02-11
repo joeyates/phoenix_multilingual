@@ -43,7 +43,7 @@ defmodule Mix.Tasks.Multilingual.Routes do
       |> Enum.map(fn {{plug, view}, routes} ->
         common_columns =
           if plug == Phoenix.LiveView.Plug do
-            route = hd(Map.values(routes))
+            route = routes |> Map.values() |> hd()
             {module, action, _, _} = route.metadata.phoenix_live_view
             ["live", Macro.to_string(module), ":#{action}"]
           else
@@ -64,7 +64,8 @@ defmodule Mix.Tasks.Multilingual.Routes do
     column_widths =
       rows
       |> Enum.reduce(seed, fn row, acc ->
-        Enum.zip(row, acc)
+        row
+        |> Enum.zip(acc)
         |> Enum.map(fn {cell, acc} ->
           cell
           |> String.length()

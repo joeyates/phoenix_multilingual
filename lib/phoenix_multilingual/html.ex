@@ -1,6 +1,7 @@
 if Code.ensure_loaded?(Phoenix.Component) do
   defmodule PhoenixMultilingual.HTML do
     import PhoenixMultilingual.Components
+
     alias PhoenixMultilingual.Routes
     alias PhoenixMultilingual.View
 
@@ -40,16 +41,18 @@ if Code.ensure_loaded?(Phoenix.Component) do
     end
 
     defp build_rels(conn, page_locale, mapping) do
-      mapping
-      |> Enum.map(fn {locale, path} ->
-        url = Phoenix.VerifiedRoutes.unverified_url(conn, path)
+      Enum.map(
+        mapping,
+        fn {locale, path} ->
+          url = Phoenix.VerifiedRoutes.unverified_url(conn, path)
 
-        if locale == page_locale do
-          {"canonical", nil, url}
-        else
-          {"alternate", locale, url}
+          if locale == page_locale do
+            {"canonical", nil, url}
+          else
+            {"alternate", locale, url}
+          end
         end
-      end)
+      )
     end
   end
 end

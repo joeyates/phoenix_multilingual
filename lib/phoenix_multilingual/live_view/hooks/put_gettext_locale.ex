@@ -21,16 +21,21 @@ if Code.ensure_loaded?(Phoenix.LiveView) do
     """
 
     import Phoenix.LiveView
+
     alias PhoenixMultilingual.View
 
     def on_mount(:default, _params, _session, socket) do
       socket =
-        socket
-        |> attach_hook(:multilingual_put_locale, :handle_params, fn _params, _uri, socket ->
-          locale = View.fetch_key(socket, :locale)
-          Gettext.put_locale(locale)
-          {:cont, socket}
-        end)
+        attach_hook(
+          socket,
+          :multilingual_put_locale,
+          :handle_params,
+          fn _params, _uri, socket ->
+            locale = View.fetch_key(socket, :locale)
+            Gettext.put_locale(locale)
+            {:cont, socket}
+          end
+        )
 
       {:cont, socket}
     end

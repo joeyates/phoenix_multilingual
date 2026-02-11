@@ -24,8 +24,10 @@ defmodule PhoenixMultilingual.Hooks.PutGettextLocaleTest do
       private = Map.put(socket.private, :lifecycle, %{handle_params: []})
 
       socket =
-        %{socket | private: private}
-        |> optionally_add_multilingual_view(context)
+        optionally_add_multilingual_view(
+          %{socket | private: private},
+          context
+        )
 
       {:ok, socket: socket}
     end

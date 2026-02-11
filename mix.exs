@@ -3,7 +3,7 @@ defmodule PhoenixMultilingual.MixProject do
 
   @app :phoenix_multilingual
 
-  def project do
+  def project() do
     [
       app: @app,
       version: "0.1.14",
@@ -17,13 +17,13 @@ defmodule PhoenixMultilingual.MixProject do
     ]
   end
 
-  def application do
+  def application() do
     [
       extra_applications: [:logger]
     ]
   end
 
-  defp deps do
+  defp deps() do
     [
       {:ex_cldr, ">= 2.39.2"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
@@ -38,7 +38,7 @@ defmodule PhoenixMultilingual.MixProject do
   defp elixirc_paths(:test), do: ["lib", "test/support/project/lib/test_project_web"]
   defp elixirc_paths(_env), do: ["lib"]
 
-  defp package do
+  defp package() do
     %{
       licenses: ["MIT"],
       links: %{

@@ -18,20 +18,25 @@ if Code.ensure_loaded?(Phoenix.LiveView) do
     """
 
     import Phoenix.LiveView
+
     alias PhoenixMultilingual.Routes
     alias PhoenixMultilingual.View
 
     def on_mount([default_locale: default_locale], _params, _session, socket) do
       socket =
-        socket
-        |> attach_hook(:multilingual_store_view, :handle_params, fn _params, uri, socket ->
-          uri = URI.parse(uri)
-          info = Phoenix.Router.route_info(socket.router, "GET", uri.path, nil)
-          locale = Routes.path_locale(socket.router, info.route) || default_locale
-          view = %View{path: uri.path, locale: locale}
-          socket = put_private(socket, :multilingual, view)
-          {:cont, socket}
-        end)
+        attach_hook(
+          socket,
+          :multilingual_store_view,
+          :handle_params,
+          fn _params, uri, socket ->
+            uri = URI.parse(uri)
+            info = Phoenix.Router.route_info(socket.router, "GET", uri.path, nil)
+            locale = Routes.path_locale(socket.router, info.route) || default_locale
+            view = %View{path: uri.path, locale: locale}
+            socket = put_private(socket, :multilingual, view)
+            {:cont, socket}
+          end
+        )
 
       {:cont, socket}
     end

@@ -2,6 +2,7 @@ defmodule PhoenixMultilingual.HTMLTest do
   use ExUnit.Case
 
   import PhoenixMultilingual.HTML
+
   alias TestProjectWeb.Router
 
   describe "get_rel_links/1" do
@@ -27,7 +28,7 @@ defmodule PhoenixMultilingual.HTMLTest do
 
     @tag path: "/about"
     test "returns rel links based on the router", %{conn: conn} do
-      result = get_rel_links(conn) |> iodata_to_string()
+      result = conn |> get_rel_links() |> iodata_to_string()
 
       expected =
         "\n  \n    <link rel=\"canonical\" href=\"http://example.com/about\">\n  \n\n  \n    <link rel=\"alternate\" hreflang=\"it\" href=\"http://example.com/it/chi-siamo\">\n  \n"
@@ -37,7 +38,7 @@ defmodule PhoenixMultilingual.HTMLTest do
 
     @tag path: "/contacts/fred"
     test "when the route has parameters, build links correctly", %{conn: conn} do
-      result = get_rel_links(conn) |> iodata_to_string()
+      result = conn |> get_rel_links() |> iodata_to_string()
 
       expected =
         "\n  \n    <link rel=\"canonical\" href=\"http://example.com/contacts/fred\">\n  \n\n  \n    <link rel=\"alternate\" hreflang=\"it\" href=\"http://example.com/it/contatti/fred\">\n  \n"

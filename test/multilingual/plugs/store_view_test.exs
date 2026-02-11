@@ -2,6 +2,7 @@ defmodule PhoenixMultilingual.Plugs.StoreViewTest do
   use ExUnit.Case, async: true
 
   import PhoenixMultilingual.Plugs.StoreView
+
   alias TestProjectWeb.Router
 
   describe "init/1" do

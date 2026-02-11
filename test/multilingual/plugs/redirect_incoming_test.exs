@@ -2,6 +2,7 @@ defmodule PhoenixMultilingual.Plugs.RedirectIncomingTest do
   use ExUnit.Case, async: true
 
   import PhoenixMultilingual.Plugs.RedirectIncoming
+
   alias PhoenixMultilingual.Plugs.RedirectIncoming
   alias PhoenixMultilingual.View
   alias TestProjectWeb.Router

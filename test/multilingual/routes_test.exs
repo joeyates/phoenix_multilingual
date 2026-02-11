@@ -1,9 +1,11 @@
 defmodule PhoenixMultilingual.RoutesTest do
   use ExUnit.Case
-  doctest PhoenixMultilingual.Routes
 
   import PhoenixMultilingual.Routes
+
   alias TestProjectWeb.Router
+
+  doctest PhoenixMultilingual.Routes
 
   setup do
     conn = %Plug.Conn{private: %{phoenix_router: Router}}

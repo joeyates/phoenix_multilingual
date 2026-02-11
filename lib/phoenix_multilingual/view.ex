@@ -89,7 +89,7 @@ defmodule PhoenixMultilingual.View do
   """
   def fetch_key(%Plug.Conn{} = conn, key) when key in @attrs do
     case conn.private[:multilingual] do
-      %__MODULE{} = view ->
+      %__MODULE__{} = view ->
         Map.fetch!(view, key)
 
       nil ->
@@ -100,7 +100,7 @@ defmodule PhoenixMultilingual.View do
   if Code.ensure_loaded?(Phoenix.LiveView) do
     def fetch_key(%Phoenix.LiveView.Socket{} = socket, key) when key in @attrs do
       case socket.private[:multilingual] do
-        %__MODULE{} = view ->
+        %__MODULE__{} = view ->
           Map.fetch!(view, key)
 
         nil ->

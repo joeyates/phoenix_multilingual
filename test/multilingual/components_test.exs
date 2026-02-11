@@ -8,7 +8,8 @@ defmodule PhoenixMultilingual.ComponentsTest do
       rels = [{"canonical", "en", "/about"}, {"alternate", "it", "/it/chi-siamo"}]
 
       result =
-        rel_links(%{rels: rels})
+        %{rels: rels}
+        |> rel_links()
         |> Phoenix.HTML.Safe.to_iodata()
         |> to_string()
 
