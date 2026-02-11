@@ -1,4 +1,8 @@
 defmodule PhoenixMultilingual.View do
+  @moduledoc """
+  A struct to hold multilingual view data for a connection or socket.
+  """
+
   @attrs [:locale, :path]
   @enforce_keys @attrs
   defstruct @attrs
@@ -55,7 +59,7 @@ defmodule PhoenixMultilingual.View do
 
   @doc """
   Fetches a key from the private View data in the connection and raises
-  an error is not view is found.
+  an error if no view data is found.
 
   ## Examples
 

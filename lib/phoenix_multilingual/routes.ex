@@ -1,6 +1,10 @@
 defmodule PhoenixMultilingual.Routes do
+  @moduledoc """
+  Functions to work with Phoenix routes and multilingual metadata.
+  """
+
   alias PhoenixMultilingual.Metadata
-  alias PhoenixMultilingual.Routes.{Route, RouteInfo}
+  alias __MODULE__.{Route, RouteInfo}
 
   @doc """
   Builds a mapping of locales to paths for the current page.

@@ -1,5 +1,11 @@
 if Code.ensure_loaded?(Gettext) do
   defmodule PhoenixMultilingual.Plugs.PutGettextLocale do
+    @moduledoc """
+    A plug to set the Gettext locale based on the locale stored in the connection's private data.
+    """
+
+    @behaviour Plug
+
     alias PhoenixMultilingual.View
 
     def init(_opts), do: nil

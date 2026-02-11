@@ -4,6 +4,7 @@ defmodule PhoenixMultilingual.Routes.Route do
 
   This struct only carries data from the Router.
   """
+
   @attrs [:verb, :path, :plug, :plug_opts, :helper, :metadata]
   @enforce_keys @attrs
   defstruct @attrs

@@ -4,6 +4,7 @@ defmodule PhoenixMultilingual.Routes.RouteInfo do
 
   This struct is specific to a path and has parameter infomation.
   """
+
   @attrs [:plug, :route, :plug_opts, :path_params]
   @enforce_keys @attrs
   defstruct @attrs

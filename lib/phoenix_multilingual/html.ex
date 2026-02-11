@@ -1,5 +1,9 @@
 if Code.ensure_loaded?(Phoenix.Component) do
   defmodule PhoenixMultilingual.HTML do
+    @moduledoc """
+    A collection of functions for generating multilingual HTML elements.
+    """
+
     import PhoenixMultilingual.Components
 
     alias PhoenixMultilingual.Routes

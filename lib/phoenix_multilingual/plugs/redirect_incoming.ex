@@ -29,6 +29,8 @@ defmodule PhoenixMultilingual.Plugs.RedirectIncoming do
       end
   """
 
+  @behaviour Plug
+
   @attrs [:accept_locale_source, :nearest_known]
   @enforce_keys @attrs
   defstruct @attrs

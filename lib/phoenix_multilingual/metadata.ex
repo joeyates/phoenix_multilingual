@@ -1,5 +1,7 @@
 defmodule PhoenixMultilingual.Metadata do
-  @moduledoc false
+  @moduledoc """
+  A struct to hold multilingual metadata for a route.
+  """
 
   @enforce_keys [:locale]
   defstruct [:locale, :view_override]

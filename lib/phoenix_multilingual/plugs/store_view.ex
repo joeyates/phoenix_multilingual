@@ -18,6 +18,9 @@ defmodule PhoenixMultilingual.Plugs.StoreView do
         end
       end
   """
+
+  @behaviour Plug
+
   import Plug.Conn
 
   alias PhoenixMultilingual.Routes
